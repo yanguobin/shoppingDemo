@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    
+    <classPathEntry location="/Users/yanguobin/.m2/repository/mysql/mysql-connector-java/5.1.32/mysql-connector-java-5.1.32.jar"/>
+    
+    <context id="mycontext">
+        <jdbcConnection
+                driverClass="com.mysql.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/smbms"
+                userId="root"
+                password="123">
+            
+            <property name="nullCatalogMeansCurrent" value="true"></property>
+            
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="edu.cn.pojo" targetProject="../shopping_bean/src/main/java"></javaModelGenerator>
+        
+        <sqlMapGenerator targetPackage="mapper" targetProject="./src/main/resources"></sqlMapGenerator>
+        
+        <javaClientGenerator type="XMLMAPPER" targetPackage="edu.cn.dao" targetProject="./src/main/java"></javaClientGenerator>
+
+        <table tableName="smbms_address" domainObjectName="Address" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableCountByExample="false" selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="true"></property>
+        </table>
+
+        <table tableName="smbms_bill" domainObjectName="Bill" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableCountByExample="false" selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="true"></property>
+        </table>
+
+        <table tableName="smbms_provider" domainObjectName="Provider" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableCountByExample="false" selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="true"></property>
+        </table>
+
+        <table tableName="smbms_role" domainObjectName="Role" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableCountByExample="false" selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="true"></property>
+        </table>
+
+        <table tableName="smbms_user" domainObjectName="User" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableCountByExample="false" selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="true"></property>
+        </table>
+    </context>
+</generatorConfiguration>

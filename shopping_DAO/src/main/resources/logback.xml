@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration debug="true">
+
+    <!--设置日志上下文名称，后面输出格式中可以通过定义 %contextName 来打印日志上下文名称-->
+    <contextName>sk-log</contextName>
+    <!--用来设置相关变量,通过key-value的方式配置，然后在后面的配置文件中通过 ${key}来访问-->
+    <property name = "sk.name" value ="test"></property>
+
+    <!--======================================ConsoleAppender===================================================================-->
+    <!--日志输出组件，主要负责日志的输出以及格式化日志。  stdout:标准输出-->
+    <appender name ="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <!--定义了一个过滤器,在LEVEL之下的日志输出不会被打印出来   这个和logger里的level共同决定在stdout输出的级别（filter非必需的）
+          临界值过滤器，过滤掉低于指定临界值的日志。当日志级别等于或高于临界值时，过滤器返回NEUTRAL；当日志级别低于临界值时，日志会被拒绝。 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <!--级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，过滤器会根据onMath 和 onMismatch接收或拒绝日志
+        <level>:设置过滤级别
+        <onMatch>:用于配置符合过滤条件的操作
+        <onMismatch>:用于配置不符合过滤条件的操作-->
+        <!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+        <!--            <level>debug</level>-->
+        <!--            <onMatch>ACCEPT</onMatch>-->
+        <!--            <onMismatch>DENY</onMismatch>-->
+        <!--        </filter>-->
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <!--定义控制台输出格式-->
+        <!--
+            %d{yyyy-MM-dd  HH:mm:ss} 时间格式 hh是12h制  HH是24h制
+            [%thread]      线程
+            %-5level       级别
+            %logger{36}    日志包     36包长度
+            [%file : %line]   目标类  和  行数
+            %msg           log信息
+            %n              换行
+            (encoder必需的）-->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd  HH:mm:ss} [%thread] %-5level %logger{36} [%file : %line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--==========================RollingFileAppender===============================================================================-->
+
+    <!--<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+
+        <!--&lt;!&ndash;如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true-->
+        <!--but 我加了之后 警告 Append mode is mandatory for RollingFileAppender. Defaulting to append=true. 我还是不加了&ndash;&gt;-->
+        <!--&lt;!&ndash;            <append>false</append>&ndash;&gt;-->
+
+        <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+            <!--<level>trace</level>-->
+        <!--</filter>-->
+        <!--&lt;!&ndash;rollingPolicy没写的话 会有警告 No TriggeringPolicy was set for the RollingFileAppender named file 没有输出本地文件&ndash;&gt;-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+            <!--<fileNamePattern>E:/logDemo1/${sk.name}.log.%i.%d{yyyy-MM-dd}</fileNamePattern>-->
+            <!--&lt;!&ndash;30d周期&ndash;&gt;-->
+            <!--<maxHistory>30</maxHistory>-->
+            <!--&lt;!&ndash;每个文件最大10M&ndash;&gt;-->
+            <!--<maxFileSize>10MB</maxFileSize>-->
+        <!--</rollingPolicy>-->
+
+        <!--<encoder>-->
+            <!--<pattern>%d{yyyy-MM-dd  HH:mm:ss} [%thread] %-5level %logger{36} [%file : %line] - %msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <!--=========================================================================================================-->
+
+    <!--root是默认的logger 这里没设定输出级别-->
+    <root>
+        <!--定义了appender，日志会通过往appender里面写-->
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="file"/>
+    </root>
+
+    <!--==================================指定包的日志======================================================-->
+    <!--这个logger没有指定appender，它会继承root节点中定义的那些appender     -->
+    <logger name="edu.cn" level="debug">
+        <!-- <appender-ref ref="stdout"/>-->
+    </logger>
+
+    <!--通过 LoggerFactory.getLogger("Test3") 可以获取到这个logger
+        additivity="false" 没有它  输出双倍   自身的和继承的root的appender-->
+    <logger name="Test3" level="trace" additivity="false">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <!--由于设置了 additivity="false" ，所以输出时不会使用rootLogger的appender-->
+    <!--但是这个logger本身又没有配置appender，所以使用这个logger输出日志的话就不会输出到任何地方-->
+    <!--    <logger name="Test3" level="trace" additivity="false"></logger>-->
+
+</configuration>

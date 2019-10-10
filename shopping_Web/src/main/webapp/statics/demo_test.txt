@@ -1,0 +1,2 @@
+<h2>JQuery and AJAX is fun</h2>
+<p id="p1">This is some text in a paragraph</p>
